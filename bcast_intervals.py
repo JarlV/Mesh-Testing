@@ -10,34 +10,24 @@ def is_in_rx_range(time):
 def is_tx_edge(i, j):
     left_is_rx = is_in_rx_range(float(i))
     right_is_rx = is_in_rx_range(float(j))
-    #print(float(i), float(j), "edge is tx: ", not right_is_rx and not left_is_rx)
     if left_is_rx & right_is_rx:
-        return "Abort" #raise ValueError("Edge is ambiguous", sample_array[index], sample_array[index + 1])
+        raise ValueError("Edge is ambiguous", i, j)
     return not right_is_rx and not left_is_rx
 
 def calculate_tx_intervals(sample_array):
     tx_intervals = []
     current_interval = 0
     for i in range(len(sample_array)-1):
-        #print("calculate_tx: ", sample_array[i], sample_array[i+1])
-        if is_tx_edge(sample_array[i], sample_array[i+1]) == "Abort":
-            # print("At interval", len(tx_intervals)+1, "sample number", i, ". Edge is ambiguous.")
-            return tx_intervals
         current_interval += float(sample_array[i])
         if is_tx_edge(sample_array[i], sample_array[i+1]):
-            if len(tx_intervals) > 0 and current_interval < tx_intervals[-1]:
-                pass # print("At interval", len(tx_intervals)+1, "sample number", i, ". interval is smaller than last interval.")
             tx_intervals.append(current_interval)
             current_interval = 0
     return tx_intervals
 
-def validate_intervals(data, imin, imax):
-    for i in data:
-        pass
 
 data = logicData.LogicData(inFile, "ms")
 data.set_decimal_points(4)
-# data.capture(60*5, 1, infile_path)
+
 delta = data.get_delta_times()
 rx_range = (0.000222 * data.time_multiplier, 0.000226 * data.time_multiplier)
 print(rx_range[0], rx_range[1])
