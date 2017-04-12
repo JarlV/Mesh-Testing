@@ -43,7 +43,6 @@ class LogicData:
         next(reader)
         self.raw_data = [float(line[0]) * self.time_multiplier for line in reader]
         csv_file.close()
-        print("data loaded")
 
     # Get durations between each toggle in the data
     def get_delta_times(self):
@@ -54,13 +53,14 @@ class LogicData:
             delta_times.append(formatting % delta_time)
         return delta_times
 
-    # Save data to output file. Data must be 2-dimentional array (row and col)
+    # Save data to output file
     def save(self, data, out_file_name):
+        if type(data[0]) is not list:
+            data = [[i] for i in data]
         if sys.hexversion > 35000000:
             self.save_py3(data, out_file_name)
         else:
             self.save_py2(data, out_file_name)
-        print("data saved")
 
     # Start capture from Logic and export data to file.
     # capture_seconds:      amount of time to capture.
@@ -74,7 +74,6 @@ class LogicData:
         s.capture_start_and_wait_until_finished()
         print("capturing... (" + str(capture_seconds) + " seconds)")
         s.export_data2(infile_path + self.new_infile_name)
-        print("data exported from Logic")
 
     def set_decimal_points(self, decimal_points):
         self.decimal_points = decimal_points
