@@ -1,4 +1,8 @@
-import analyse
+import logicData
+
+infile_path = "C:/Users/JarlV/Documents/GitHub/"
+inFile = "in.csv"
+outFile = "out.csv"
 
 def is_in_rx_range(time):
     return time >= rx_range[0] and time <= rx_range[1]
@@ -31,9 +35,9 @@ def validate_intervals(data, imin, imax):
     for i in data:
         pass
 
-data = analyse.LogicData("trickle_under_5_mins.csv", "ms")
+data = logicData.LogicData(inFile, "ms")
 data.set_decimal_points(4)
-# data.capture(60*5, 1, "C:/Users/JarlVictor/Dropbox/Code/2017/")
+# data.capture(60*5, 1, infile_path)
 delta = data.get_delta_times()
 rx_range = (0.000222 * data.time_multiplier, 0.000226 * data.time_multiplier)
 print(rx_range[0], rx_range[1])

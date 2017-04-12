@@ -6,22 +6,20 @@ import sys
 class LogicData:
     time_multiplier = ""
     decimal_points = 2
-    new_infile_name = "" #"pycapture.csv"
+    new_infile_name = ""
     raw_data = []
 
     def save_py3(self, data, out_file_name):
-        csv_file = open(out_file_name, 'w', newline='') # for python 3
+        csv_file = open(out_file_name, 'w', newline='')
         writer = csv.writer(csv_file, delimiter=',')
         writer.writerows(data)
         csv_file.close()
-        print("data saved")
 
     def save_py2(self, data, out_file_name):
         with open(out_file_name, 'wb') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerows(data)
         csvfile.close()
-        print("data saved")
         
     def set_time_multiplier(self, unit):
         if unit == "s":
@@ -31,7 +29,9 @@ class LogicData:
         elif unit == "us":
             self.time_multiplier = 10**6
 
-    #----------------------------------------------------------------#
+    # ----------------------------------------------------------------
+    # Interface
+    # ----------------------------------------------------------------
 
     def __init__(self, infile_name, time_multiplier):
         self.new_infile_name = infile_name
@@ -60,15 +60,19 @@ class LogicData:
             self.save_py3(data, out_file_name)
         else:
             self.save_py2(data, out_file_name)
+        print("data saved")
 
-    # Start capture from Logic and export data to file
+    # Start capture from Logic and export data to file.
+    # capture_seconds:      amount of time to capture.
+    # amount_of_channels:   Starting from channel 0, amount of capture channels.
+    # infile_path:          path to the Logic export file.
     def capture(self, capture_seconds, amount_of_channels, infile_path):
         s = saleae.Saleae()
         s.set_capture_seconds(capture_seconds)
         s.set_active_channels([i for i in range(amount_of_channels)], [])
         s.set_sample_rate(s.get_all_sample_rates()[0])
-        print("capturing... (" + str(capture_seconds) + " seconds)")
         s.capture_start_and_wait_until_finished()
+        print("capturing... (" + str(capture_seconds) + " seconds)")
         s.export_data2(infile_path + self.new_infile_name)
         print("data exported from Logic")
 
