@@ -36,7 +36,7 @@ def validate_intervals(data, imin, imax):
     interval = imin
     fail_count = 0
     for time in data:
-        if int(time) in [i for i in range(int(interval/2), interval-1)]:
+        if interval/2 <= time < interval:
             pass
         else:
             print("     test fail on", time, "for interval", interval)
@@ -47,7 +47,7 @@ def validate_intervals(data, imin, imax):
             interval = imax
     print("Amount of anomalies in samples: ", fail_count)
 
-data = logicData.LogicData(inFile, "ms")
+data = logicData.LogicData(inFile, "us")
 data.set_decimal_points(4)
 
 delta = data.get_delta_times()
@@ -57,4 +57,4 @@ print("samples: ", len(delta))
 intervals = calculate_tx_intervals(delta)
 data.save([[i] for i in intervals], "out.csv")
 print("Number of intervals: ", len(intervals))
-validate_intervals(intervals, 200, 1024)
+validate_intervals(intervals, 0.200*data.time_multiplier, 2024)
