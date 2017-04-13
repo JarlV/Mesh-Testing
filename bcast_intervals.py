@@ -1,6 +1,6 @@
 import logicData
 
-infile_path = "C:/Users/JarlV/Documents/GitHub/"
+infile_path = "C:/Users/JarlV/Documents/GitHub/Mesh-Testing/"
 inFile = "in.csv"
 outFile = "out.csv"
 
@@ -46,9 +46,8 @@ def validate_intervals(data, imin, imax):
             interval = imax
     print("Amount of anomalies in intervals: ", fail_count)
 
-data = logicData.LogicData(inFile, "us")
+data = logicData.LogicData(inFile, "ms")
 data.set_decimal_points(4)
-
 delta = data.get_delta_times()
 rx_range = (0.000222 * data.time_multiplier, 0.000226 * data.time_multiplier)
 print("samples: ", len(delta))

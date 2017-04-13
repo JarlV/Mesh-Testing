@@ -1,5 +1,3 @@
-in.csv
-out.csv
 *.pyc
 .idea/
 __pycache__/
