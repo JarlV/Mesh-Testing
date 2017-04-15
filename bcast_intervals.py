@@ -46,12 +46,13 @@ def validate_intervals(data, imin, imax):
             interval = imax
     print("Amount of anomalies in intervals: ", fail_count)
 
-data = logicData.LogicData(inFile, "ms")
+data = logicData.LogicData(inFile, "ms", 1)
 data.set_decimal_points(4)
-delta = data.get_delta_times()
-rx_range = (0.000222 * data.time_multiplier, 0.000226 * data.time_multiplier)
+delta = data.get_all_delta_times()
+rx_range = (0.000222 * data.time_multiplier,
+            0.000226 * data.time_multiplier)
 print("samples: ", len(delta))
 intervals = calculate_tx_intervals(delta)
-data.save(intervals, "out.csv")
+logicData.save(intervals, "out.csv")
 print("Number of intervals: ", len(intervals))
 validate_intervals(intervals, 0.200*data.time_multiplier, 2024)
