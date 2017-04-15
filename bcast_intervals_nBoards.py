@@ -1,8 +1,10 @@
 import logicData
+#import bcast_intervals
 
-infile_path = "C:/Users/JarlV/Documents/GitHub/Mesh-Testing/"
-inFile = "in.csv"
-outFile = "out.csv"
+
+infile_path = "C:/Users/JarlVictor/Documents/GitHub/Mesh-Testing/"
+inFile = "in_nBoards.csv"
+outFile = "out_nBoards.csv"
 
 def is_in_rx_range(time):
     return time >= rx_range[0] and time <= rx_range[1]
@@ -30,29 +32,15 @@ def calculate_tx_intervals(sample_array):
             current_interval = 0
     return tx_intervals
 
-def validate_intervals(data, imin, imax):
-    imax = imin*(2^imax)
-    interval = imin
-    fail_count = 0
-    for time in data:
-        if interval/2 <= time < interval:
-            pass
-        else:
-            print("     test fail on", time, "for interval", interval)
-            fail_count += 1
-        if interval*2 < imax:
-            interval *= 2
-        else:
-            interval = imax
-    print("Amount of anomalies in intervals: ", fail_count)
 
-data = logicData.LogicData(inFile, "ms", 1)
-data.set_decimal_points(4)
-delta = data.get_all_delta_times()
+#TODO make test for n boards
+# logicData.capture(60*12, 2, infile_path, inFile)
+data = logicData.LogicData(inFile, "us", 2)
 rx_range = (0.000222 * data.time_multiplier,
             0.000226 * data.time_multiplier)
-print("samples: ", len(delta))
-intervals = calculate_tx_intervals(delta)
-logicData.save(intervals, "out.csv")
-print("Number of intervals: ", len(intervals))
-validate_intervals(intervals, 0.200*data.time_multiplier, 2024)
+separated_data = data.get_separated_data_for_channels()
+separated_data = [data.get_delta_times(i) for i in separated_data]
+
+
+logicData.save(calculate_tx_intervals(separated_data[0]), "1"+outFile)
+logicData.save(calculate_tx_intervals(separated_data[1]), "2"+outFile)
