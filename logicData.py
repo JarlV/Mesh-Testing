@@ -6,9 +6,10 @@ import math
 
 class LogicData:
     time_multiplier = ""
-    decimal_points = 2
+    formatting = ""
     new_infile_name = ""
-    amount_of_channels = 1
+    amount_of_channels = 0
+    decimal_points = 0
     raw_data = []
 
     def set_time_multiplier(self, unit):
@@ -37,8 +38,7 @@ class LogicData:
         delta_times = []
         for i in range(0, len(self.raw_data)-1):
             delta_time = float(self.raw_data[i+1][0]) - float(self.raw_data[i][0])
-            formatting = "%." + str(self.decimal_points) + "f"
-            delta_times.append(formatting % delta_time)
+            delta_times.append(self.formatting % delta_time)
         return delta_times
 
     # Separates all the data into the channel list it belongs to
@@ -53,6 +53,10 @@ class LogicData:
 
     def set_decimal_points(self, decimal_points):
         self.decimal_points = decimal_points
+        self.formatting = "%." + str(decimal_points) + "f"
+        #self.raw_data = [self.formatting % i[0] for i in self.raw_data]
+        self.raw_data = [[round(i[0], self.decimal_points), i[1]] for i in self.raw_data]
+
 
 # Start capture from Logic and export data to file.
 # capture_seconds:      amount of time to capture.
@@ -115,6 +119,7 @@ def calculate_tx_intervals(sample_array, rx_range):
             current_interval = 0
     return tx_intervals
 
+#TODO find where this method eats values (4)
 def classify_toggles_as_Tx_or_Rx(d, rx_range):
     data_TxRx = []
     delta_times = get_delta_times(d)

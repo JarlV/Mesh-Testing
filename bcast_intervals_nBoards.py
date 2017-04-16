@@ -13,21 +13,26 @@ def test_print(d):
 
 
 # logicData.capture(60*12, 2, infile_path, inFile)
-data = logicData.LogicData(inFile, "ms", 2)
+data = logicData.LogicData(inFile, "us", 2)
 data.set_decimal_points(4)
 rx_range = (round(0.000222 * data.time_multiplier, data.decimal_points),
             round(0.000226 * data.time_multiplier, data.decimal_points))
-raw_data = data.get_separated_data_for_channels()
-samples_classified_in_channels = [logicData.classify_toggles_as_Tx_or_Rx(i, rx_range) for i in raw_data]
+
+channels = data.get_separated_data_for_channels()
+channels_TxRx_classified = [logicData.classify_toggles_as_Tx_or_Rx(channel, rx_range) for channel in channels]
+
 combined = []
-for i in samples_classified_in_channels:
-    combined += i
+for channel in channels_TxRx_classified:
+    combined += channel
 
 final = sorted(combined, key=itemgetter(0))
 
+print("should be the same:", len(final), len(data.raw_data))
 data.raw_data.pop(0)
-for i in range(20):
+for i in range(8):
     print(final[i], data.raw_data[i])
+
+#TODO make test for data in "final"
 #test_print(final)
 #test_print(data.raw_data)
 
