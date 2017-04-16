@@ -41,15 +41,6 @@ class LogicData:
             delta_times.append(formatting % delta_time)
         return delta_times
 
-    # Get durations between each toggle in the specific data
-    def get_delta_times(self, data):
-        delta_times = []
-        for i in range(0, len(data) - 1):
-            delta_time = float(data[i + 1]) - float(data[i])
-            formatting = "%." + str(self.decimal_points) + "f"
-            delta_times.append(float(formatting % delta_time))
-        return delta_times
-
     # Separates all the data into the channel list it belongs to
     def get_separated_data_for_channels(self):
         separated_data = [[] for i in range(self.amount_of_channels)]
@@ -96,4 +87,49 @@ def save(data, out_file_name):
         save_py3(data, out_file_name)
     else:
         save_py2(data, out_file_name)
+
+
+def is_in_rx_range(time, rx_range):
+    return rx_range[0] <= time <= rx_range[1]
+
+def is_tx_edge(i, j, rx_range):
+    left_is_rx = is_in_rx_range(float(i), rx_range)
+    right_is_rx = is_in_rx_range(float(j), rx_range)
+    if left_is_rx & right_is_rx:
+        return "Abort"
+    return not right_is_rx and not left_is_rx
+
+def calculate_tx_intervals(sample_array, rx_range):
+    tx_intervals = []
+    current_interval = 0
+    for i in range(len(sample_array)-1):
+        if is_tx_edge(sample_array[i], sample_array[i+1], rx_range) == "Abort":
+            print("At interval", len(tx_intervals)+1, "sample number", i, ". Edge is ambiguous.")
+            return tx_intervals
+        current_interval += float(sample_array[i])
+        if is_tx_edge(sample_array[i], sample_array[i+1], rx_range):
+            if len(tx_intervals) > 0 and current_interval < tx_intervals[-1]:
+                # The interval did not increase since last interval
+                pass # print("At interval", len(tx_intervals)+1, "sample number", i, ". interval is smaller than last interval.")
+            tx_intervals.append(current_interval)
+            current_interval = 0
+    return tx_intervals
+
+def classify_toggles_as_Tx_or_Rx(d, rx_range):
+    data_TxRx = []
+    delta_times = get_delta_times(d)
+    for i in range(len(delta_times) - 1):
+        if is_tx_edge(delta_times[i], delta_times[i + 1], rx_range):
+            data_TxRx.append([d[i + 1], "Tx"])
+        else:
+            data_TxRx.append([d[i + 1], "Rx"])
+    return data_TxRx
+
+# Get durations between each toggle in the specific data
+def get_delta_times(data):
+    delta_times = []
+    for i in range(0, len(data) - 1):
+        delta_time = float(data[i + 1]) - float(data[i])
+        delta_times.append(float(delta_time))
+    return delta_times
 
