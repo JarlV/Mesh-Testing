@@ -119,15 +119,15 @@ def calculate_tx_intervals(sample_array, rx_range):
             current_interval = 0
     return tx_intervals
 
-#TODO find where this method eats values (4)
 def classify_toggles_as_Tx_or_Rx(d, rx_range):
-    data_TxRx = []
+    data_TxRx = [[d[0]] + ['Xx']]
     delta_times = get_delta_times(d)
     for i in range(len(delta_times) - 1):
         if is_tx_edge(delta_times[i], delta_times[i + 1], rx_range):
-            data_TxRx.append([d[i + 1], "Tx"])
+            data_TxRx.append([d[i + 1]] + ["Tx"])
         else:
-            data_TxRx.append([d[i + 1], "Rx"])
+            data_TxRx.append([d[i + 1]] + ["Rx"])
+    data_TxRx.append([d[-1]] + ['Xx'])
     return data_TxRx
 
 # Get durations between each toggle in the specific data
