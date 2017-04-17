@@ -1,8 +1,8 @@
 import logicData
 
-infile_path = "C:/Users/JarlV/Documents/GitHub/Mesh-Testing/"
-inFile = "in.csv"
-outFile = "out.csv"
+infile_path = "C:/Users/JarlV/Dropbox/Code/2017/capture/bcast_samples/"
+inFile = infile_path + "bandwidth_test_1_board.csv"
+outFile = "output/bcast_intervals_output.csv"
 
 
 def validate_intervals(data, imin, imax):
@@ -28,6 +28,6 @@ rx_range = (0.000222 * data.time_multiplier,
             0.000226 * data.time_multiplier)
 print("samples: ", len(delta))
 intervals = logicData.calculate_tx_intervals(delta, rx_range)
-logicData.save(intervals, "out.csv")
+logicData.save(intervals, outFile)
 print("Number of intervals: ", len(intervals))
 validate_intervals(intervals, 0.200*data.time_multiplier, 2024)

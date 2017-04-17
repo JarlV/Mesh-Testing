@@ -2,9 +2,9 @@ import logicData
 from operator import itemgetter
 
 
-infile_path = "C:/Users/JarlVictor/Documents/GitHub/Mesh-Testing/"
-inFile = "in_nBoards.csv"
-outFile = "out_nBoards.csv"
+infile_path = "C:/Users/JarlV/Dropbox/Code/2017/capture/bcast_samples/"
+inFile = infile_path + "bandwidth_test_2_boards.csv"
+outFile = "output/bcast_intervals_nBoards_output.csv"
 
 
 # logicData.capture(60*12, 2, infile_path, inFile)
