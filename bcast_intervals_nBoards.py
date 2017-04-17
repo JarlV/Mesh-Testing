@@ -2,7 +2,7 @@ import logicData
 from operator import itemgetter
 
 
-infile_path = "C:/Users/JarlV/Dropbox/Code/2017/capture/bcast_samples/"
+infile_path = "C:/Users/JarlVictor/Dropbox/Code/2017/capture/bcast_samples/"
 inFile = infile_path + "bandwidth_test_2_boards.csv"
 outFile = "output/bcast_intervals_nBoards_output.csv"
 

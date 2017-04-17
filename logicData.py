@@ -45,7 +45,7 @@ class LogicData:
     def get_separated_data_for_channels(self):
         separated_data = [[] for i in range(self.amount_of_channels)]
         for i in self.raw_data:
-            separated_data[math.ceil((i[1] + 1) / 2) - 1].append(i[0])
+            separated_data[int(math.ceil(float(i[1] + 1) / 2) - 1)].append(i[0])
         return separated_data
 
     def get_raw_data(self):
