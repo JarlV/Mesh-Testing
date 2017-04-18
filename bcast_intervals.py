@@ -1,7 +1,7 @@
 import logicData
 
-infile_path = "C:/Users/JarlVictor/Dropbox/Code/2017/capture/bcast_samples/"
-inFile = infile_path + "bandwidth_test_1_board.csv"
+infile_path = "C:/Users/JarlV/Dropbox/Code/2017/capture/bcast_samples/"
+inFile = infile_path + "bandwidth_test_1_board_fail.csv"
 outFile = "output/bcast_intervals_output.csv"
 
 
