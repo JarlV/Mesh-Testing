@@ -1,7 +1,7 @@
 import logicData
 
 infile_path = "C:/Users/JarlV/Dropbox/Code/2017/capture/bcast_samples/"
-inFile = infile_path + "bandwidth_test_1_board_fail.csv"
+inFile = infile_path + "bandwidth_test_1_board.csv"
 outFile = "output/bcast_intervals_output.csv"
 
 
@@ -23,6 +23,7 @@ def validate_intervals(data, imin, imax):
 
 data = logicData.LogicData(inFile, "ms", 1)
 data.set_decimal_points(4)
+logicData.capture(30, 1, inFile)
 delta = data.get_all_delta_times()
 rx_range = (0.000222 * data.time_multiplier,
             0.000226 * data.time_multiplier)
