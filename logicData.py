@@ -68,14 +68,14 @@ class LogicData:
 # capture_seconds:      amount of time to capture.
 # amount_of_channels:   Starting from channel 0, amount of capture channels.
 # infile_path:          path to the Logic export file.
-def capture(capture_seconds, amount_of_channels, infile_path, inFile):
+def capture(capture_seconds, amount_of_channels, inFile):
     s = saleae.Saleae()
     s.set_capture_seconds(capture_seconds)
     s.set_active_channels([i for i in range(amount_of_channels)], [])
     s.set_sample_rate(s.get_all_sample_rates()[0])
     print("capturing... (" + str(capture_seconds) + " seconds)")
     s.capture_start_and_wait_until_finished()
-    s.export_data2(infile_path + inFile)
+    s.export_data2(inFile)
 
 def save_py3(data, out_file_name):
     csv_file = open(out_file_name, 'w', newline='')
