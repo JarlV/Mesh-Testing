@@ -1,6 +1,6 @@
 import logicData
 
-infile_path = "C:/Users/JarlV/Dropbox/Code/2017/capture/ticker_samples/"
+infile_path = "C:/Users/JarlVictor/Dropbox/Code/2017/capture/ticker_samples/"
 inFile = infile_path + "trickle_2_chn.csv"
 outFile = "output/ticker_trickle_output.csv"
 
@@ -37,5 +37,5 @@ intervals2 = logicData.calculate_tx_intervals(delta2, rx_range)
 
 # logicData.save(intervals1, outFile)
 validate_intervals(intervals1,
-                   (0xFF/10000) * data.time_multiplier,
+                   (float(0xFF)/10000) * data.time_multiplier,
                    8)
