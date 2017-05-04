@@ -56,4 +56,4 @@ for i in range(len(channels)):
     validate_intervals(channels[i], 0.020 * data.time_multiplier, 2048)
 
 
-logicData.save(channels[0], outFileTest)
+logicData.save(channels[1], outFileTest)

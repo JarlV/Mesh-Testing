@@ -12,6 +12,8 @@ def validate_intervals(data, imin, imax):
     for time in data:
         if interval/2 <= time < interval:
             pass
+        elif imin/2 <= time < imin:
+            interval = imin
         else:
             print("     test fail on", time, "for interval", interval)
             fail_count += 1
