@@ -6,7 +6,7 @@ infile_path = "C:/Users/JarlV/Dropbox/Code/2017/capture/bcast_samples/"
 inFile = infile_path + "bandwidth_test_2_boards.csv"
 outFile = "output/bcast_intervals_nBoards_output.csv"
 outFileTest = "C:/Users/JarlV/Dropbox/Code/2017/capture/bcast_samples/bcast_test_output"
-amount_of_mesh_nodes = 2
+amount_of_mesh_nodes = 1
 
 # logicData.capture(60*12, 2, infile_path, inFile)
 data = logicData.LogicData(inFile, "ms", amount_of_mesh_nodes)
