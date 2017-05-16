@@ -1,12 +1,13 @@
 import logicData
+import sys
 from operator import itemgetter
 
 
-infile_path = "C:/Users/JarlV/Dropbox/Code/2017/capture/bcast_samples/"
-inFile = infile_path + "bandwidth_test_2_boards.csv"
+# infile_path = "C:/Users/JarlV/Dropbox/Code/2017/capture/bcast_samples/bandwidth_test_2_boards.csv"
+inFile = sys.argv[1]
 outFile = "output/bcast_intervals_nBoards_output.csv"
 outFileTest = "C:/Users/JarlV/Dropbox/Code/2017/capture/bcast_samples/bcast_test_output"
-amount_of_mesh_nodes = 1
+amount_of_mesh_nodes = 2
 
 # logicData.capture(60*12, 2, infile_path, inFile)
 data = logicData.LogicData(inFile, "ms", amount_of_mesh_nodes)
@@ -55,5 +56,6 @@ for i in range(len(channels)):
     print('Validating node', i)
     validate_intervals(channels[i], 0.020 * data.time_multiplier, 2048)
 """
-
-# logicData.save(channels[1], outFileTest)
+channels = []
+for i in range(amount_of_mesh_nodes):
+    logicData.save(channels[i], outFileTest)
