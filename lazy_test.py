@@ -1,4 +1,5 @@
 import logicData
+import sys
 
 infile_path = "C:/Users/JarlV/Dropbox/Code/2017/capture/phoenix/"
 inFile = infile_path + "lazy_test.csv"
@@ -6,7 +7,7 @@ inFile = infile_path + "lazy_test.csv"
 scanner_lazy = []
 transmit_lazy = []
 
-#logicData.capture(60, 8, inFile)
+# logicData.capture(60, 8, inFile)
 data = logicData.LogicData(inFile, "ms", 8)
 data.set_decimal_points(2)
 capture_data = data.get_raw_data()
@@ -26,8 +27,9 @@ for i in capture_data:
             transmit_lazy.append([i[0], current_transmit_lazy])
     last_timeout = current_timeout
 
-print("scanner lazy:", scanner_lazy)
-print("transmit lazy:", transmit_lazy)
+#print("scanner lazy:", scanner_lazy)
+#print("transmit lazy:", transmit_lazy)
 
 logicData.save(scanner_lazy, 'scanner_lazy.csv')
 logicData.save(transmit_lazy, 'transmit_lazy.csv')
+print(sys.hexversion)

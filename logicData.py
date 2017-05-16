@@ -1,5 +1,5 @@
 import csv
-#import saleae
+import saleae
 import sys
 import math
 
@@ -47,12 +47,14 @@ class LogicData:
             delta_times.append(self.formatting % delta_time)
         return delta_times
 
+    """
     # Separates all the data into the channel list it belongs to
     def get_separated_data_for_channels(self):
         separated_data = [[] for i in range(self.amount_of_channels)]
         for i in self.raw_data:
             separated_data[int(math.ceil(float(i[1] + 1) / 2) - 1)].append(i[0])
         return separated_data
+    """
 
     def get_raw_data(self):
         return self.raw_data
@@ -63,7 +65,7 @@ class LogicData:
         self.formatting = "%." + str(decimal_points) + "f"
         self.raw_data = [[round(i[0], self.decimal_points), i[1]] for i in self.raw_data]
 
-'''
+
 # Start capture from Logic and export data to file.
 # capture_seconds:      amount of time to capture.
 # amount_of_channels:   Starting from channel 0, amount of capture channels.
@@ -76,7 +78,7 @@ def capture(capture_seconds, amount_of_channels, inFile):
     print("capturing... (" + str(capture_seconds) + " seconds)")
     s.capture_start_and_wait_until_finished()
     s.export_data2(inFile)
-'''
+
 def save_py3(data, out_file_name):
     csv_file = open(out_file_name, 'w', newline='')
     writer = csv.writer(csv_file, delimiter=',')
@@ -85,7 +87,7 @@ def save_py3(data, out_file_name):
 
 def save_py2(data, out_file_name):
     with open(out_file_name, 'wb') as csvfile:
-        writer = csv.writer(csvfile)
+        writer = csv.writer(csvfile, delimiter=',')
         writer.writerows(data)
     csvfile.close()
 
