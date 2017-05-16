@@ -1,5 +1,5 @@
 import csv
-import saleae
+#import saleae
 import sys
 import math
 
@@ -63,7 +63,7 @@ class LogicData:
         self.formatting = "%." + str(decimal_points) + "f"
         self.raw_data = [[round(i[0], self.decimal_points), i[1]] for i in self.raw_data]
 
-
+'''
 # Start capture from Logic and export data to file.
 # capture_seconds:      amount of time to capture.
 # amount_of_channels:   Starting from channel 0, amount of capture channels.
@@ -76,7 +76,7 @@ def capture(capture_seconds, amount_of_channels, inFile):
     print("capturing... (" + str(capture_seconds) + " seconds)")
     s.capture_start_and_wait_until_finished()
     s.export_data2(inFile)
-
+'''
 def save_py3(data, out_file_name):
     csv_file = open(out_file_name, 'w', newline='')
     writer = csv.writer(csv_file, delimiter=',')
