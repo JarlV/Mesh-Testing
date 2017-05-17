@@ -9,11 +9,11 @@ outFile = "output/"
 
 scanner_lazy = []
 transmit_lazy = []
-transmit_delta_times = []
 
 data = logicData.LogicData(inFile, "ms", 8)
 data.set_decimal_points(2)
 capture_data = data.get_raw_data()
+transmit_delta_times = [capture_data[0][0]]
 
 last_sample = 0
 for i in capture_data:
@@ -21,9 +21,9 @@ for i in capture_data:
     current_transmit_timeout = ((i[1] >> 3) & 1) ^ ((last_sample >> 3) & 1)
     current_scanning_lazy = (i[1] >> 4) & 0b111
     current_scanning_timeout = (i[1] >> 7) ^ (last_sample >> 7)
-    if current_scanning_timeout:  # if current_timeout is scanner timeout
+    if current_scanning_timeout:  # if scanner timeout
         scanner_lazy.append([i[0],current_scanning_lazy])
-    elif current_transmit_timeout:  # if current_timeout is transmit timeout
+    elif current_transmit_timeout:  # if transmit timeout
         transmit_lazy.append([i[0], current_transmit_lazy])
         transmit_delta_times.append(i[0])
     last_sample = i[1]
