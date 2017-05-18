@@ -1,0 +1,6 @@
+10 - 11 - 12 Transmit lazy
+17 - 18 - 19 Scanner lazy
+20 Scanner
+21 interval
+22 transmit end
+
