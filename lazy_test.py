@@ -35,7 +35,7 @@ for i in capture_data:
 
 # Trickle test -------------------------------
 
-imin = 100
+imin = 200
 imax = 2000
 
 print("--------- test t and i ---------")
