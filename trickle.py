@@ -6,7 +6,7 @@ def trickle_validate(data, min_vals, max_vals):
         if min_vals[i] <= data[i] < max_vals[i]:
             pass
         else:
-            print("     test fail on", data[i], "not in range [", min_vals[i], ",", max_vals[i], "]")
+            print(i, "test fail on", data[i], "not in range [", min_vals[i], ",", max_vals[i], "]")
             fail_count += 1
     print("fail count: ", fail_count)
 
@@ -29,11 +29,11 @@ def validate_intervals(data, imin, imax):
 
 # tests t with respect to actual i
 def test_t_and_i(i_toggles, t_toggles):
-    for i in range(1,len(i_toggles)):
-        if i_toggles[i-1] <= t_toggles[i-1] < i_toggles[i]:
+    for i in range(len(i_toggles)-1):
+        if i_toggles[i] <= t_toggles[i] < i_toggles[i+1]:
             pass
         else:
-            print(i, "fail.", t_toggles[i-1], "not in range", i_toggles[i-1], ",", i_toggles[i])
+            print(i, "fail.", t_toggles[i], "not in range", i_toggles[i], ",", i_toggles[i+1])
 
 
 def determine_min_max(imin, imax, transmit_delta_times):
