@@ -50,14 +50,12 @@ def test_t_and_i(i_toggles, t_toggles):
 # test
 def determine_min_max(imin, imax, transmit_delta_times):
     limit = 0.002 * data.time_multiplier
-    trickle_out_data_without_tiny_toggles = logicData.calculate_tx_intervals(transmit_delta_times, [0, limit])
-    #last_val = 0
-    #for i in range(len(transmit_delta_times)):
-    #    if last_val > limit and transmit_delta_times[i] > limit:
-    #        trickle_out_data_without_tiny_toggles.append([last_val])
-    #    else:
-    #        last_val += transmit_delta_times[i]
-    #    last_val = transmit_delta_times[i]
+    trickle_out_data_without_tiny_toggles = [] # logicData.calculate_tx_intervals(transmit_delta_times, [0, limit])
+    for i in range(len(transmit_delta_times)):
+        if transmit_delta_times[i] < limit:
+            trickle_out_data_without_tiny_toggles[-1] += transmit_delta_times[i]
+        else:
+            trickle_out_data_without_tiny_toggles.append(transmit_delta_times[i])
 
     trickle_min_vals = [imin/2]
     trickle_max_vals = [imin-1]
