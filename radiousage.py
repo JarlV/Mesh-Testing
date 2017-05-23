@@ -22,28 +22,27 @@ def ignore_tiny_toggles():
         last_capture = capture_data[i]
     return ignore_sum
 
-radio_up_time = 0
 rx = 0
 tx = 0
 last_sample = [0, 0]
 for i in capture_data:
-    if i[1] == 0b01:
+    if i[1] & 3 == 1:
         tx += i[0] - last_sample[0]
-    elif i[1] == 0b10:
+    elif i[1] & 3 == 2:
         rx += i[0] - last_sample[0]
         #radio_up_time += i[0] - last_sample[0]
     last_sample = i
+rx += ignore_tiny_toggles()
 radio_up_time = rx + tx
 
-print("Radio usage: ", 100 * (radio_up_time + ignore_tiny_toggles())/capture_data[-1][0], "%")
-rx += ignore_tiny_toggles()
+print(rx, tx, capture_data[-1][0] - rx + tx)
 
+print("Radio usage: ", 100 * radio_up_time /capture_data[-1][0], "%")
 
 labels = ['Scanning', 'Transmitting', 'Idle']
-sizes = [rx, tx]
-colors = ['gold', 'lightskyblue', 'black']
-patches, texts = plt.pie(sizes, colors=colors, startangle=90)
-plt.legend(patches, labels, loc="best")
+sizes = [rx, tx, capture_data[-1][0] - rx + tx]
+colors = ['gold', 'lightskyblue', 'lightgreen']
+plt.pie(sizes, colors=colors, labels=labels, startangle=90, autopct='%1.1f%%')
 plt.axis('equal')
 plt.tight_layout()
 plt.show()
