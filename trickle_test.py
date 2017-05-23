@@ -111,6 +111,7 @@ logicData.save(trickle_out_data, outFile + 'trickle.csv')
 
 plt.xlabel("transmit")
 plt.ylabel("time (ms) since last transmit")
+plt.suptitle("Durations between each transmit and restrictions from the trickle algorithm")
 plt.plot(trickle_out_data)
 plt.grid(True)
 plt.show()
