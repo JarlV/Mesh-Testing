@@ -41,7 +41,6 @@ def slpitlists(list):
 
 split_scan = slpitlists(scanner_lazy)
 split_trans = slpitlists(transmit_lazy)
-print(transmit_lazy)
 
 plt.xlabel("time (ms)")
 plt.ylabel("lazy")
@@ -49,4 +48,5 @@ plt.plot(split_scan[0], split_scan[1], 'r', label="scan lazy")
 plt.plot(split_trans[0], split_trans[1], 'g', label="transmit lazy")
 plt.legend()
 plt.grid(True)
+plt.tight_layout()
 plt.show()
