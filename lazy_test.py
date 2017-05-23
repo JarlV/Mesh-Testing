@@ -4,6 +4,7 @@
 
 import logicData
 import sys
+import matplotlib.pyplot as plt
 
 inFile = sys.argv[1]
 outFile = "output/lazy_test_output/"
@@ -30,3 +31,22 @@ for i in capture_data:
 logicData.save(scanner_lazy, outFile + 'scanner_lazy.csv')
 logicData.save(transmit_lazy, outFile + 'transmit_lazy.csv')
 
+def slpitlists(list):
+    l1=[]
+    l2=[]
+    for i in list:
+        l1.append(i[0])
+        l2.append(i[1])
+    return [l1, l2]
+
+split_scan = slpitlists(scanner_lazy)
+split_trans = slpitlists(transmit_lazy)
+print(transmit_lazy)
+
+plt.xlabel("time (ms)")
+plt.ylabel("lazy")
+plt.plot(split_scan[0], split_scan[1], 'r', label="scan lazy")
+plt.plot(split_trans[0], split_trans[1], 'g', label="transmit lazy")
+plt.legend()
+plt.grid(True)
+plt.show()

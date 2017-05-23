@@ -1,5 +1,6 @@
 import logicData
 import sys
+import matplotlib.pyplot as plt
 
 inFile = sys.argv[1]
 imin = int(sys.argv[2])
@@ -17,7 +18,7 @@ def trickle_validate(data, min_vals, max_vals):
         if min_vals[i] <= data[i][0] < max_vals[i]:
             pass
         else:
-            print(i, "test fail on", data[i], "not in range [", min_vals[i], ",", max_vals[i], "]")
+            print(i, "test fail on", data[i][0], "not in range [", min_vals[i], ",", max_vals[i], "]")
             fail_count += 1
     print("fail count: ", fail_count)
 
@@ -80,7 +81,8 @@ def determine_min_max(imin, imax, transmit_delta_times):
             trickle_min_vals.append(imax/2)
 
     for i in range(len(trickle_out_data_without_tiny_toggles)):
-        trickle_out_data_without_tiny_toggles[i] = [trickle_out_data_without_tiny_toggles[i]] + [trickle_min_vals[i]] + [trickle_max_vals[i]]
+        trickle_out_data_without_tiny_toggles[i] = \
+            [trickle_out_data_without_tiny_toggles[i]] + [trickle_min_vals[i]] + [trickle_max_vals[i]]
 
     print("--------- test t with expected i values ---------")
     trickle_validate(trickle_out_data_without_tiny_toggles, trickle_min_vals, trickle_max_vals)
@@ -106,3 +108,9 @@ trickle_out_data = \
     determine_min_max(imin, imax, logicData.get_delta_times(transmit_times))
 
 logicData.save(trickle_out_data, outFile + 'trickle.csv')
+
+plt.xlabel("transmit")
+plt.ylabel("time (ms) since last transmit")
+plt.plot(trickle_out_data)
+plt.grid(True)
+plt.show()
