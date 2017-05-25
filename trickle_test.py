@@ -22,7 +22,7 @@ def trickle_validate(data, min_vals, max_vals):
             fail_count += 1
     print("fail count: ", fail_count)
 
-
+'''
 def validate_intervals(data, imin, imax):
     interval = imin
     fail_count = 0
@@ -38,8 +38,8 @@ def validate_intervals(data, imin, imax):
             interval *= 2
         else:
             interval = imax
-
-
+'''
+'''
 # tests t with respect to actual generated intervals
 def test_t_and_i(i_toggles, t_toggles):
     for i in range(len(i_toggles)-1):
@@ -47,11 +47,13 @@ def test_t_and_i(i_toggles, t_toggles):
             pass
         else:
             print(i, "fail.", t_toggles[i], "not in range", i_toggles[i], ",", i_toggles[i+1])
+'''
+
 
 # test
 def determine_min_max(imin, imax, transmit_delta_times):
     limit = 0.002 * data.time_multiplier
-    trickle_out_data_without_tiny_toggles = [] # logicData.calculate_tx_intervals(transmit_delta_times, [0, limit])
+    trickle_out_data_without_tiny_toggles = []
     for i in range(len(transmit_delta_times)):
         if transmit_delta_times[i] < limit:
             trickle_out_data_without_tiny_toggles[-1] += transmit_delta_times[i]

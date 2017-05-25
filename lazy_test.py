@@ -31,6 +31,8 @@ for i in capture_data:
 logicData.save(scanner_lazy, outFile + 'scanner_lazy.csv')
 logicData.save(transmit_lazy, outFile + 'transmit_lazy.csv')
 
+
+#  Graphics
 def slpitlists(list):
     l1=[]
     l2=[]
