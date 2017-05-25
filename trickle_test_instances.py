@@ -6,19 +6,14 @@ inFile = sys.argv[1]
 amount_of_nodes = int(sys.argv[2])
 imin = int(sys.argv[3])
 imax = int(sys.argv[4])
-outFile = "output/trickle_test_output/"
+outFile = "output/lazy_test_output/"
 
 data = logicData.LogicData(inFile, "ms", amount_of_nodes)
 data.set_decimal_points(5)
 capture_data = data.get_raw_data()
 
-def get_changed_node(last_toggle, current_toggle):
-    node = last_toggle ^ current_toggle
-    counter = 0
-    while not node & 1:
-        node >>= 1
-        counter += 1
-    return counter
+def get_current_interval(current_bitpattern):
+    return [current_bitpattern >> 3, current_bitpattern >> 1]
 
 def transmits_in_trickle(transmit_times):
     interval = imin
@@ -40,16 +35,14 @@ def transmits_in_trickle(transmit_times):
         last_interval = interval
     return [fail_count, pass_count]
 
-node_toggle_times = [[] for i in range(amount_of_nodes)]
-node_last_toggles = [0 for i in range(amount_of_nodes)]
-last_capture = [0, 0]
+instances_toggle_times = [[] for i in range(amount_of_nodes)]
+instance_last_toggles = [0 for i in range(amount_of_nodes)]
 for sample in capture_data:
-    changed_node = get_changed_node(last_capture[1], sample[1])
-    node_toggle_times[changed_node].append([sample[0], sample[0] - node_last_toggles[changed_node]])
-    node_last_toggles[changed_node] = sample[0]
-    last_capture = sample
+    changed_instance = get_current_interval(sample[1])
+    instances_toggle_times[changed_instance].append([sample[0], sample[0] - instance_last_toggles[changed_instance]])
+    instance_last_toggles[changed_instance] = sample[0]
 
-for i in node_toggle_times:
+for i in instances_toggle_times:
     test_result = transmits_in_trickle(i)
     print(test_result[0], "samples failed", test_result[1], "samples passed")
 
@@ -60,6 +53,6 @@ plt.xlabel("transmit")
 plt.ylabel("time (ms) since last transmit")
 plt.suptitle("Durations between each transmit")
 for i in range(amount_of_nodes):
-    plt.plot([j[0] for j in node_toggle_times[i]], [j[1] for j in node_toggle_times[i]])
+    plt.plot([j[0] for j in instances_toggle_times[i]], [j[1] for j in instances_toggle_times[i]])
 plt.grid(True)
 plt.show()
