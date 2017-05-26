@@ -21,9 +21,9 @@ The test also distingushes between `Tx` and `Rx` by the bit value of the `READY`
 from the capture file.
 
 * If the bit for `READY` is *1*, the time from the toggle of `READY` to the toggle of
-`DISABLE` is added to the total `Rx` time.
+`DISABLE` is added to the total *`Rx`* time.
 * If the bit for `READY` is *0*, the time from the toggle of `READY` to the toggle of
-`DISABLE` is added to the total `Rx` time.
+`DISABLE` is added to the total *`Tx`* time.
 
 == Issues
 A issue that was discovered with the Logic capture is that it sometimes contain `20 ns` toggles.
