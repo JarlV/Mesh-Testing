@@ -1,3 +1,8 @@
+# For every 'disable' toggle, the time since last 'ready' toggle is considered active time for the radio.
+# If the pin for 'ready' is HIGH at the time of the 'disable' toggle,
+# the radio is considered to be in Rx mode since the time of the 'ready' pin toggle.
+# Otherwise, the radio is considered to be in Tx mode since the time of the 'ready' pin toggle.
+
 import logicData
 import sys
 import matplotlib.pyplot as plt
