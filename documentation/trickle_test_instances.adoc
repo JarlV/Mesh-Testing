@@ -1,0 +1,4 @@
+== Test for transmit times in all instances
+=== How to use the test
+=== How the test works
+=== Issues

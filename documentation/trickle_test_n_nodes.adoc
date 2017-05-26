@@ -1,0 +1,4 @@
+== Test for transmit times in n nodes
+=== How to use the test
+=== How the test works
+=== Issues
