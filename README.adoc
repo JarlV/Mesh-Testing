@@ -4,13 +4,13 @@
 Included in this repository are several tests for the behaviour 
 of the radio in a mesh of n nodes or single nodes.
 
-== Test for radio usage
+== Test for radio up time
 The test for radio active time is done using the `READY` and `DISABLE` events and PPI
 for toggling two separate pins.
 The test input will be a `Logic Saleae` capture file from the two pins outputing the
 mentioned radio events, `READY` being LSB.
 
-=== How to use
+=== How to use the test
 Run the Python script `radiousage.py` along with the CSV capture file in console
 `python radiousage.py <captureFile.csv>`
 
@@ -25,7 +25,20 @@ from the capture file.
 * If the bit for `READY` is *0*, the time from the toggle of `READY` to the toggle of
 `DISABLE` is added to the total *`Tx`* time.
 
-== Issues
+=== Issues
 A issue that was discovered with the Logic capture is that it sometimes contain `20 ns` toggles.
 This has been taken in to consideration in the Python script by ignoring
 durations between toggles that is less than `1 us`.
+
+== Test for transmit times and Trickle algorithm
+=== How to use the test
+=== How the test works
+=== Issues
+== Test for transmit times in all instances
+=== How to use the test
+=== How the test works
+=== Issues
+== Test for transmit times in n nodes
+=== How to use the test
+=== How the test works
+=== Issues
