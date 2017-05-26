@@ -9,7 +9,7 @@ imax = int(sys.argv[4])
 outFile = "output/lazy_test_output/"
 
 data = logicData.LogicData(inFile, "ms", amount_of_nodes)
-data.set_decimal_points(5)
+data.set_decimal_points(10)
 capture_data = data.get_raw_data()
 
 def get_current_interval(current_bitpattern):
@@ -40,12 +40,12 @@ instance_last_toggles = [[0 for i in range(amount_of_nodes+1)] for i in range(am
 last_sample = [0, 0]
 
 for sample in capture_data:
-    if last_sample[1] ^ sample[1] & 1: # If transmit toggles
+    if last_sample[1] ^ sample[1] & 1 and sample[0] - last_sample[0] > 0.1: # If transmit toggles
         ch_i = get_current_interval(sample[1])
         instances_toggle_times[ch_i[0]][ch_i[1]]\
             .append([sample[0], sample[0] - instance_last_toggles[ch_i[0]][ch_i[1]]])
         instance_last_toggles[ch_i[0]][ch_i[1]] = sample[0]
-    last_sample = sample
+        last_sample = sample
 
 for i in instances_toggle_times:
     for j in i:
@@ -55,9 +55,13 @@ for i in instances_toggle_times:
 
 #  Graphics
 
-plt.xlabel("transmit")
+plt.xlabel("time (ms) since start of capture")
 plt.ylabel("time (ms) since last transmit")
 plt.suptitle("Durations between each transmit")
+
+#instance = instances_toggle_times[0][1]
+#plt.plot([y_point[0] for y_point in instance], [x_point[1] for x_point in instance])
+
 for row in instances_toggle_times:
     for t_times in row:
         plt.plot([i[0] for i in t_times], [i[1] for i in t_times])

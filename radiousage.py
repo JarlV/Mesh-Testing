@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 inFile = sys.argv[1]
 data = logicData.LogicData(inFile, 'ms', 4)
-data.set_decimal_points(2)
+data.set_decimal_points(3)
 capture_data = data.get_raw_data()
 ignore = 1
 
@@ -39,7 +39,7 @@ print("Radio usage: ", 100 * radio_up_time /capture_data[-1][0], "%")
 labels = ['Scanning', 'Transmitting', 'Idle']
 sizes = [rx, tx, capture_data[-1][0] - rx + tx]
 colors = ['gold', 'lightskyblue', 'lightgreen']
-plt.pie(sizes, colors=colors, labels=labels, startangle=90, autopct='%1.2f%%')
+plt.pie(sizes, colors=colors, labels=labels, startangle=90, autopct='%1.'+ str(data.decimal_points) +'f%%')
 plt.axis('equal')
 plt.tight_layout()
 plt.show()
