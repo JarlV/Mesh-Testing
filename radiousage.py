@@ -1,6 +1,7 @@
 #  Test for calculating the amount of time in in which the radio is active / total time.
 #  Run the test in console with .csv file exported from Saleae Logic device as argument.
-#  The .csv file would have been exported from a capture of channels 0 and 1, where 'high line' meaning 'radio active'.
+#  The .csv file would have been exported from a capture of channels 0 and 1,
+#  where 'high line' meaning 'radio active'.
 
 import logicData
 import sys
