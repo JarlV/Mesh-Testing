@@ -13,7 +13,7 @@ data.set_decimal_points(5)
 capture_data = data.get_raw_data()
 
 def get_current_interval(current_bitpattern):
-    return current_bitpattern >> 1 #[(current_bitpattern >> 3) & 3, (current_bitpattern >> 1) & 3]
+    return current_bitpattern >> 1
 
 def transmits_in_trickle(transmit_times):
     interval = imin
@@ -35,36 +35,31 @@ def transmits_in_trickle(transmit_times):
         last_interval = interval
     return [fail_count, pass_count]
 
-#instances_toggle_times = [[[] for i in range(amount_of_nodes+1)] for i in range(amount_of_nodes+1)]
-#instance_last_toggles = [[0 for i in range(amount_of_nodes+1)] for i in range(amount_of_nodes+1)]
 instances_toggle_times = [[] for i in range(amount_of_nodes + 1)]
-instance_last_toggles = [0 for i in range(amount_of_nodes + 1)]
+instance_last_toggles = [0 for j in range(amount_of_nodes + 1)]
 
 
 last_sample = [0, 0]
 for sample in capture_data:
-    if last_sample[1] ^ sample[1] & 1: # If transmit toggles
+    if last_sample[1] ^ sample[1] & 1 and sample[0] - last_sample[0] > 0.5:  # If transmit toggles
         ch_i = get_current_interval(sample[1])
-        print(ch_i)
         instances_toggle_times[ch_i]\
             .append([sample[0], sample[0] - instance_last_toggles[ch_i]])
         instance_last_toggles[ch_i] = sample[0]
-        #  instances_toggle_times[ch_i[0]][ch_i[1]]\
-        #    .append([sample[0], sample[0] - instance_last_toggles[ch_i[0]][ch_i[1]]])
-        #  instance_last_toggles[ch_i[0]][ch_i[1]] = sample[0]
-    last_sample = sample
+        last_sample = sample
 
 for i in instances_toggle_times:
-    # for j in i:
     test_result = transmits_in_trickle(i)
     print(test_result[0], "samples failed", test_result[1], "samples passed")
 
 
 #  Graphics
 
-plt.xlabel("transmit")
+plt.xlabel("time (ms) since start of capture")
 plt.ylabel("time (ms) since last transmit")
 plt.suptitle("Durations between each transmit")
+#ins1 = instances_toggle_times[1]
+#plt.plot([j[0] for j in ins1], [j[1] for j in ins1])
 for t_times in instances_toggle_times:
     plt.plot([j[0] for j in t_times], [j[1] for j in t_times])
 #  for row in instances_toggle_times:
