@@ -156,6 +156,19 @@ def get_delta_times(data):
         delta_times.append(float(delta_time))
     return delta_times
 
+def flat_nano_bumps(capture_data, bump_len):
+    nano_bump_free_capture = []
+    ban_index = float('inf')
+    for i in range(len(capture_data)-1):
+        disable_toggled = ((capture_data[i][1] >> 1) & 1) ^ ((capture_data[i+1][1] >> 1) & 1)
+        if (capture_data[i+1][0] - capture_data[i][0] <= bump_len and disable_toggled):
+            ban_index = i+1
+        elif ban_index == i:
+            pass
+        else:
+            nano_bump_free_capture.append(capture_data[i])
+    return nano_bump_free_capture
+
 def transmits_in_trickle(transmit_times, imin, imax):
     interval = imin
     last_interval = 0

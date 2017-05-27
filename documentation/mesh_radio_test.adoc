@@ -17,10 +17,10 @@ if the steps listed below are followed.
 |Logic line |Node output pin
 
 |0
-|`READY` event
+|READY event
 
 |1
-|`DISABLE` event
+|DISABLE event
 
 |2
 |Instance_array[0][0]
@@ -63,10 +63,10 @@ image::../images/TxRx.png[Distinguishing between Tx and Rx in active radio time]
 
 === Radio up time
 
-* If the bit for `READY` is *1*, the time from the toggle of `READY` to the toggle of
-`DISABLE` is added to the total *`Rx`* time.
-* If the bit for `READY` is *0*, the time from the toggle of `READY` to the toggle of
-`DISABLE` is added to the total *`Tx`* time.
+* If the bit for READY is `*1*`, the time from the toggle of READY to the toggle of
+DISABLE is added to the total *`Rx`* time.
+* If the bit for READY is `*0*`, the time from the toggle of READY to the toggle of
+DISABLE is added to the total *`Tx`* time.
 
 At the end of the test, the sum of the radio up time is compared to the set capture time,
 and a percentage for radio up time in Rx and Tx mode is printed to console.
