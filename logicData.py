@@ -47,15 +47,6 @@ class LogicData:
             delta_times.append(self.formatting % delta_time)
         return delta_times
 
-    """
-    # Separates all the data into the channel list it belongs to
-    def get_separated_data_for_channels(self):
-        separated_data = [[] for i in range(self.amount_of_channels)]
-        for i in self.raw_data:
-            separated_data[int(math.ceil(float(i[1] + 1) / 2) - 1)].append(i[0])
-        return separated_data
-    """
-
     def get_raw_data(self):
         return self.raw_data
 
@@ -169,6 +160,10 @@ def flat_nano_bumps(capture_data, bump_len):
             nano_bump_free_capture.append(capture_data[i])
     return nano_bump_free_capture
 
+# Returns the amount of durations that does not fit in expected intervals, and the amount that do fit
+# transmit_times:  List of time durations. Each being the duration since last transmit
+# imin:            imin as defined in the Tricle algorithm
+# imax:            imax as defined in the Tricle algorithm
 def transmits_in_trickle(transmit_times, imin, imax):
     interval = imin
     last_interval = 0

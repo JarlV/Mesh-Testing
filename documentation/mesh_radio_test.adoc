@@ -17,22 +17,22 @@ if the steps listed below are followed.
 |Logic line |Node output pin
 
 |0
-|READY event
+|READY event toggle
 
 |1
-|DISABLE event
+|DISABLE event toggle
 
 |2
-|Instance_array[0][0]
+|Instance_array[0][0] value
 
 |3
-|Instance_array[0][1]
+|Instance_array[0][1] value
 
 |4
-|Instance_array[1][0]
+|Instance_array[1][0] value
 
 |5
-|Instance_array[1][1]
+|Instance_array[1][1] value
 |===
 . Have the `Logic analyzer` lines [0-5] connected to a node in the mesh as shown in the table above.
 . Have the mesh nodes running.
