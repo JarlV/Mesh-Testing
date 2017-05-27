@@ -156,3 +156,24 @@ def get_delta_times(data):
         delta_times.append(float(delta_time))
     return delta_times
 
+def transmits_in_trickle(transmit_times, imin, imax):
+    interval = imin
+    last_interval = 0
+    fail_count = 0
+    pass_count = 0
+    for t in transmit_times:
+        if interval/2\
+                <= t\
+                < interval + last_interval/2:
+            pass_count += 1
+        elif imin/2 <= t < imin + last_interval/2:
+            interval = imin
+            pass_count += 1
+        else:
+            fail_count += 1
+        if interval * 2 <= imax:
+            interval *= 2
+        else:
+            interval = imax
+        last_interval = interval
+    return [fail_count, pass_count]
