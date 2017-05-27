@@ -15,27 +15,27 @@ if the steps listed below are followed.
 
 . Have the `Logic analyzer` lines [0-5] connected to a node in the mesh in the following way:
 
-|===
-|Logic line |Node output pin
+    |===
+    |Logic line |Node output pin
 
-|0
-|`READY` event
+    |0
+    |`READY` event
 
-|1
-|`DISABLE` event
+    |1
+    |`DISABLE` event
 
-|2
-|Instance_array[0][0]
+    |2
+    |Instance_array[0][0]
 
-|3
-|Instance_array[0][1]
+    |3
+    |Instance_array[0][1]
 
-|4
-|Instance_array[1][0]
+    |4
+    |Instance_array[1][0]
 
-|5
-|Instance_array[1][1]
-|===
+    |5
+    |Instance_array[1][1]
+    |===
 
 . Have the mesh nodes running.
 . Run the Python script `mesh_radio_test.py`
