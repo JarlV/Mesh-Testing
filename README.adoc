@@ -1,6 +1,5 @@
 = Test scripts for the mesh implementation on PhoenixLL
 
-== Introduction
 Included in this repository are several tests for the radio behaviour
 in a mesh of n nodes or single nodes.
 
