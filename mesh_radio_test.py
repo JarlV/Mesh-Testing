@@ -19,7 +19,7 @@ inFile = '/input/mesh_radio_test_capture.csv'
 inFile_path = os.getcwd().replace('\\', '/') + inFile
 amount_of_capture_channels = 6
 
-logicData.capture(test_time_seconds, amount_of_capture_channels, inFile_path)
+# logicData.capture(test_time_seconds, amount_of_capture_channels, inFile_path)
 data = logicData.LogicData(inFile_path, 'ms', amount_of_capture_channels)
 data.set_decimal_points(4)
 capture_data = data.get_raw_data()
