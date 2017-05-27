@@ -1,17 +1,19 @@
 = Test for radio up time and radio transmission using the Trickle algorithm
 
-The test for radio up time is done using the `READY` and `DISABLE` events and `PPI`
+The test for radio up time is done using the `READY` and `DISABLE` events and PPI
 for toggling two separate pins.
 The test input will be a `Logic Saleae` capture file from the two pins outputing the
 mentioned radio events, `READY` being LSB.
 
-The test also
+The test also sorts the durations between each transmission in to instances
+and validates the transmissions timing with respect to the Trickle algorithm.
 
-The capture is imported automatically if the steps listed are followed.
+The capture is imported automatically in to the script from the Logic capture
+if the steps listed below are followed.
 
-=== How to use the test
+== How to use the test
 
-. Have the `Logic analyzer` lines [0-6] connected to a node in the mesh in the following way:
+. Have the `Logic analyzer` lines [0-5] connected to a node in the mesh in the following way:
 
 |===
 |Logic line |Node output pin
@@ -45,16 +47,22 @@ and the amount of nodes in the mesh
 The Logic capture should begin, printing out `capturing... (x seconds)`,
 followed by the results of the test.
 
-=== How the test works
+=== Dependencies
+
+* Logic Analyzer
+* link:https://pypi.python.org/pypi/saleae[Python Saleae]
+* link:https://matplotlib.org/[Python matplotlib]
+
+== How the test works
 
 The script identify the time between a
 `READY` toggle and a `DISABLE` toggle as the radio being active.
 The test also distingushes between `Tx` and `Rx` by the bit value of the `READY` event
 at the `DISABLE` toggle.
 
-image::images/TxRx.png[Distinguishing between Tx and Rx in active radio time]
+image::../images/TxRx.png[Distinguishing between Tx and Rx in active radio time]
 
-==== Radio up time
+=== Radio up time
 
 * If the bit for `READY` is *1*, the time from the toggle of `READY` to the toggle of
 `DISABLE` is added to the total *`Rx`* time.
@@ -64,12 +72,14 @@ image::images/TxRx.png[Distinguishing between Tx and Rx in active radio time]
 At the end of the test, the sum of the radio up time is compared to the set capture time,
 and a percentage for radio up time in Rx and Tx mode is printed to console.
 
-==== Trickle transmission
+=== Trickle transmission
 
 
 
-=== Issues
+== Issues
 
 A issue that was discovered with the Logic capture is that it sometimes contain `20 ns` toggles.
 This has been taken in to consideration in the Python script by ignoring
 durations between toggles that is less than `1 us`.
+
+link:../README.adoc[Back to README]
