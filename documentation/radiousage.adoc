@@ -1,8 +1,13 @@
-= Test for radio up time
-The test for radio active time is done using the `READY` and `DISABLE` events and PPI
+= Test for radio up time and radio transmission using the Trickle algorithm
+The test for radio up time is done using the `READY` and `DISABLE` events and PPI
 for toggling two separate pins.
 The test input will be a `Logic Saleae` capture file from the two pins outputing the
 mentioned radio events, `READY` being LSB.
+
+The test also
+
+The capture is imported automatically if the steps listed are followed.
+
 
 == How to use the test
 Run the Python script `radiousage.py` along with the CSV capture file in console

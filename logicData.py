@@ -162,9 +162,7 @@ def transmits_in_trickle(transmit_times, imin, imax):
     fail_count = 0
     pass_count = 0
     for t in transmit_times:
-        if interval/2\
-                <= t\
-                < interval + last_interval/2:
+        if interval/2 <= t < interval + last_interval/2:
             pass_count += 1
         elif imin/2 <= t < imin + last_interval/2:
             interval = imin

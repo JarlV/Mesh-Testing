@@ -24,6 +24,7 @@ data = logicData.LogicData(inFile_path, 'ms', amount_of_capture_channels)
 data.set_decimal_points(4)
 capture_data = data.get_raw_data()
 
+beginning_time_removed = 0 # the time before the first READY toggle
 first_ready_toggle = 0
 rx = 0
 tx = 0
@@ -52,21 +53,22 @@ for i in range(1, len(capture_data)):
             tx += active_time
             last_transmit = capture_data[i][0]
             instances_toggle_times[current_instance[0]][current_instance[1]] \
-                .append([capture_data[i][0], capture_data[i][0] - instance_last_toggles[current_instance[0]][current_instance[1]]])
+                .append([capture_data[i][0],
+                         capture_data[i][0] - instance_last_toggles[current_instance[0]][current_instance[1]]])
             instance_last_toggles[current_instance[0]][current_instance[1]] = capture_data[i][0]
     elif ready_toggled:
         first_ready_toggle = 1
         last_ready_toggle = capture_data[i]
     last_sample = capture_data[i]
 
+# Test each instance
 for row in instances_toggle_times:
     for instance in row:
         test_result = logicData.transmits_in_trickle(instance, imin, imax)
         print(test_result[0], "samples failed", test_result[1], "samples passed")
 
-print("Radio usage (Tx): " + str(100 * tx / capture_data[-1][0]) + "%")
-print("Radio usage (Rx): " + str(100 * rx / capture_data[-1][0]) + "%")
-
+print("Radio usage (Tx): " + str(100 * tx / test_time_seconds * 1000) + "%")
+print("Radio usage (Rx): " + str(100 * rx / test_time_seconds * 1000) + "%")
 
 
 def plot_data(data):
@@ -75,6 +77,5 @@ def plot_data(data):
             plt.plot([i[0] for i in t_times], [i[1] for i in t_times])
     plt.grid(True)
     plt.show()
-
 
 plot_data(instances_toggle_times)

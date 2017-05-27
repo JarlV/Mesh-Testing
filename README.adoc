@@ -1,11 +1,13 @@
 = Test scripts for the mesh implementation on PhoenixLL
 
 == Introduction
-Included in this repository are several tests for the behaviour 
-of the radio in a mesh of n nodes or single nodes.
+Included in this repository are several tests for the radio behaviour
+in a mesh of n nodes or single nodes.
+
+The tests were used in the group project `IT2901` on a BLE mesh impolementation using
+`PhoenixLL` and the `Trickle algorithm`.
 
 == Tests
-* link:documentation/radiousage.adoc[Test for radio up time]
+* link:documentation/mesh_radio_test.adoc[Test for transmit times in all instances and radio up time]
 * link:documentation/trickle_test.adoc[Test for transmit times and Trickle algorithm]
-* link:documentation/trickle_test_instances.adoc[Test for transmit times in all instances]
 * link:documentation/trickle_test_n_nodes.adoc[Test for transmit times in n nodes]

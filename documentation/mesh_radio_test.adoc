@@ -1,0 +1,75 @@
+= Test for radio up time and radio transmission using the Trickle algorithm
+
+The test for radio up time is done using the `READY` and `DISABLE` events and `PPI`
+for toggling two separate pins.
+The test input will be a `Logic Saleae` capture file from the two pins outputing the
+mentioned radio events, `READY` being LSB.
+
+The test also
+
+The capture is imported automatically if the steps listed are followed.
+
+=== How to use the test
+
+. Have the `Logic analyzer` lines [0-6] connected to a node in the mesh in the following way:
+
+|===
+|Logic line |Node output pin
+
+|0
+|`READY` event
+
+|1
+|`DISABLE` event
+
+|2
+|Instance_array[0][0]
+
+|3
+|Instance_array[0][1]
+
+|4
+|Instance_array[1][0]
+
+|5
+|Instance_array[1][1]
+|===
+
+. Have the mesh nodes running.
+. Run the Python script `mesh_radio_test.py`
+along with the the desired capture length in seconds,
+the Imin value and the Imax value uesd in the mesh code
+and the amount of nodes in the mesh
+`python mesh_radio_test.py [capture-seconds] [Imin] [Imax] [nodes-amount]`.
+
+The Logic capture should begin, printing out `capturing... (x seconds)`,
+followed by the results of the test.
+
+=== How the test works
+
+The script identify the time between a
+`READY` toggle and a `DISABLE` toggle as the radio being active.
+The test also distingushes between `Tx` and `Rx` by the bit value of the `READY` event
+at the `DISABLE` toggle.
+
+image::images/TxRx.png[Distinguishing between Tx and Rx in active radio time]
+
+==== Radio up time
+
+* If the bit for `READY` is *1*, the time from the toggle of `READY` to the toggle of
+`DISABLE` is added to the total *`Rx`* time.
+* If the bit for `READY` is *0*, the time from the toggle of `READY` to the toggle of
+`DISABLE` is added to the total *`Tx`* time.
+
+At the end of the test, the sum of the radio up time is compared to the set capture time,
+and a percentage for radio up time in Rx and Tx mode is printed to console.
+
+==== Trickle transmission
+
+
+
+=== Issues
+
+A issue that was discovered with the Logic capture is that it sometimes contain `20 ns` toggles.
+This has been taken in to consideration in the Python script by ignoring
+durations between toggles that is less than `1 us`.
