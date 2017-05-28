@@ -11,7 +11,7 @@ inFile_path = os.getcwd().replace('\\', '/') + inFile
 amount_of_capture_channels = 6
 
 # Start Logic capture
-#logicData.capture(test_time_seconds, amount_of_capture_channels, inFile_path)
+logicData.capture(test_time_seconds, amount_of_capture_channels, inFile_path)
 
 # Import capture
 capture_data = logicData.LogicData(inFile_path, 'ms', amount_of_capture_channels).get_raw_data()
@@ -71,7 +71,7 @@ for i in range(1, len(capture_data)):
     last_sample = capture_data[i]                                       # Allows for compare in next iteration
 
 
-# Test results output ---------------------------------
+# --------------------------------- Test results output ---------------------------------
 
 # Test each instance
 for row in instances_toggle_times:
@@ -88,11 +88,13 @@ print("Test for radio uptime: Idle: " + str(100 - (tx_p + rx_p)) + "% Radio usag
 
 # Plot data
 def plot_data(data):
+    plt.xlabel("time (ms) since start of capture")
+    plt.ylabel("time (ms) since last transmission")
+    plt.suptitle("Trickle transmission instances")
     for row in data:
         for t_times in row:
             plt.plot([i[0] for i in t_times],
                      [i[1] for i in t_times])
-
     plt.grid(True)
     plt.show()
 

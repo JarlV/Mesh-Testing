@@ -4,7 +4,9 @@ The test for radio uptime is based on the `READY` and `DISABLE` events.
 The input for the test is a `Logic Saleae` capture file from the two pins signifying the
 mentioned radio events, with `READY` as LSB.
 
-The test also reads what trickle instance a transmission is for, keeping track of the transmission timing for each instance (maximum 16) separately and validating the timing with respect to the Trickle algorithm.
+The test also reads what trickle instance a transmission is for,
+keeping track of the transmission timing for each instance (maximum 16) separately and
+validating the timing with respect to the Trickle algorithm.
 
 The capture data is imported automatically by the script
 if the steps listed below are followed.
@@ -71,17 +73,15 @@ each of the instance arrays are passed in for testing in the function
 `transmits_in_trickle(transmit_times, imin, imax)` in `logicData`.
 `transmit_times` will be an array with durations since the previous transmit,
 `imin` and `imax` are minimum and maximum intervals as defined by the Trickle algorithm.
-This function returns an array with length 2, containing the amount of durations that does not
-fit in expected intervals, and the amount that do fit.
+This function returns an array with the indexes of the duration that failed the test.
 A graphical representation of the timing of the transmissions are also returned by the script.
+Below is an example, showing one of the instances being transmitted less frequently.
+
+image::../images/trickle_instances_graph.png[example output graph from test]
 
 The allowed range of duration between two transmissions are shown in the illustration bellow.
 
 image::../images/trickle_intervals.png[the relation between two trickle intervals]
-
-
-image::../images/trickle_validation.png[the validation process of the individual transmissions]
-
 
 == Issues
 
@@ -94,5 +94,10 @@ the same READY event. This might however give a slightly larger margin of error.
 The test therefore assumes that the interval has been reset if it detects a transmission gap
 `imin / 2 <= transmission_gap < imin + last_interval / 2` and adapts accordingly,
 potentially missing out on detecting an error.
+
+* If the duration between the first two transmissions is not in the Imin interval,
+the Trickle validation method `transmits_in_trickle` will not pass any durations until the interval is reset to Imin.
+This can be checked by looking at the array returned by the validation method,
+as the first indexes from the test will have failed the test.
 
 link:../README.adoc[Back to README]
