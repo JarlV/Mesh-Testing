@@ -11,7 +11,7 @@ inFile_path = os.getcwd().replace('\\', '/') + inFile
 amount_of_capture_channels = 6
 
 # Start Logic capture
-logicData.capture(test_time_seconds, amount_of_capture_channels, inFile_path)
+#logicData.capture(test_time_seconds, amount_of_capture_channels, inFile_path)
 
 # Import capture
 capture_data = logicData.LogicData(inFile_path, 'ms', amount_of_capture_channels).get_raw_data()
@@ -70,17 +70,20 @@ for i in range(1, len(capture_data)):
                                                                         #   more than one time
     last_sample = capture_data[i]                                       # Allows for compare in next iteration
 
+
+# Test results output ---------------------------------
+
 # Test each instance
 for row in instances_toggle_times:
     for instance in row:
         if len(instance) > 0:
-            test_result = logicData.transmits_in_trickle([i[1] for i in instance], imin, imax)
-            print(test_result[0], "samples failed,", test_result[1], "samples passed")
+            failed_indexes = logicData.transmits_in_trickle([i[1] for i in instance], imin, imax)
+            print(100 * (len(instance) - len(failed_indexes)) / len(instance), "% of samples passed the trickle test")
 
 # Print radio usage percentage to console
 tx_p = 100 * tx / (test_time_seconds * 1000)
 rx_p = 100 * rx / (test_time_seconds * 1000)
-print("Idle: " + str(100 - (tx_p + rx_p)) + "% Radio usage (Tx): " + str(tx_p) + "% "
+print("Test for radio uptime: Idle: " + str(100 - (tx_p + rx_p)) + "% Radio usage (Tx): " + str(tx_p) + "% "
       + "(Rx): " + str(rx_p) + "%")
 
 # Plot data
