@@ -1,4 +1,24 @@
 == Test for transmit times in n nodes
+
+Capture transmission on n boards. 1 channel to 1 pin toggling on transmission done.
+
 === How to use the test
+
+Run in console: `python trickle_test_n_nodes.py [capture-seconds] [Imin] [Imax] [nodes-amount]`
+
 === How the test works
+
+
+
 === Issues
+* The Trickle part of the test does not have insight into the reset of the interval to Imin.
+The test therefore assumes that the interval has been reset if it detects a transmission gap
+`imin / 2 <= transmission_gap < imin + last_interval / 2` and adapts accordingly,
+potentially missing out on detecting an error.
+
+* If the duration between the first two transmissions is not in the Imin interval,
+the Trickle validation method `transmits_in_trickle` will not pass any durations until the interval is reset to Imin.
+This can be checked by looking at the array returned by the validation method,
+as the first indexes from the test will have failed the test.
+
+link:../README.adoc[Back to README]

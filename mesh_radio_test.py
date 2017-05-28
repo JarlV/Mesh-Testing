@@ -78,12 +78,14 @@ for row in instances_toggle_times:
     for instance in row:
         if len(instance) > 0:
             failed_indexes = logicData.transmits_in_trickle([i[1] for i in instance], imin, imax)
-            print(100 * (len(instance) - len(failed_indexes)) / len(instance), "% of samples passed the trickle test")
+            print(100 * (len(instance) - len(failed_indexes)) / len(instance), "% of samples passed the trickle test.",
+                  len(instance), "total samples.")
 
 # Print radio usage percentage to console
 tx_p = 100 * tx / (test_time_seconds * 1000)
 rx_p = 100 * rx / (test_time_seconds * 1000)
-print("Test for radio uptime: Idle: " + str(100 - (tx_p + rx_p)) + "% Radio usage (Tx): " + str(tx_p) + "% "
+print("Test for radio uptime: Idle: " + str(100 - (tx_p + rx_p))
+      + "% (Tx): " + str(tx_p) + "% "
       + "(Rx): " + str(rx_p) + "%")
 
 # Plot data

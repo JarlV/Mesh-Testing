@@ -1,13 +1,19 @@
 import logicData
-import sys
+import sys, os
 import matplotlib.pyplot as plt
+# Capture transmission on n boards. 1 channel to 1 pin, toggling on transmission done.
+# Run in console: python trickle_test_n_nodes.py [capture-seconds] [Imin] [Imax] [nodes-amount].
 
-inFile = sys.argv[1]
-amount_of_nodes = int(sys.argv[2])
-imin = int(sys.argv[3])
-imax = int(sys.argv[4])
-outFile = "output/trickle_test_output/"
+test_time_seconds = sys.argv[1]
+imin = int(sys.argv[2])
+imax = int(sys.argv[3])
+amount_of_nodes = int(sys.argv[4])
+outFile = "output/"
+inFile = '/input/mesh_radio_test_capture.csv'
+inFile_path = os.getcwd().replace('\\', '/') + inFile
 
+# Start Logic capture
+logicData.capture(test_time_seconds, amount_of_nodes, inFile_path)
 data = logicData.LogicData(inFile, "ms", amount_of_nodes)
 data.set_decimal_points(5)
 capture_data = data.get_raw_data()
@@ -20,26 +26,6 @@ def get_changed_node(last_toggle, current_toggle):
         counter += 1
     return counter
 
-def transmits_in_trickle(transmit_times):
-    interval = imin
-    last_interval = 0
-    fail_count = 0
-    pass_count = 0
-    for t in transmit_times:
-        if interval/2 <= t[1] < interval + last_interval/2:
-            pass_count += 1
-        elif imin/2 <= t[1] < imin + last_interval/2:
-            interval = imin
-            pass_count += 1
-        else:
-            fail_count += 1
-        if interval * 2 <= imax:
-            interval *= 2
-        else:
-            interval = imax
-        last_interval = interval
-    return [fail_count, pass_count]
-
 node_toggle_times = [[] for i in range(amount_of_nodes)]
 node_last_toggles = [0 for i in range(amount_of_nodes)]
 last_capture = [0, 0]
@@ -50,8 +36,9 @@ for sample in capture_data:
     last_capture = sample
 
 for i in node_toggle_times:
-    test_result = transmits_in_trickle(i)
-    print(test_result[0], "samples failed", test_result[1], "samples passed")
+    failed_indexes = logicData.transmits_in_trickle(i, imin, imax)
+    print(100 * (len(i) - len(failed_indexes)) / len(i), "% of samples passed the trickle test.",
+          len(i), "total samples.")
 
 
 #  Graphics
