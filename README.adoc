@@ -84,9 +84,6 @@ each of the instance arrays are passed in for testing in the function
 `imin` and `imax` are minimum and maximum intervals as defined by the Trickle algorithm.
 This function returns an array with the indexes of the duration that failed the test.
 A graphical representation of the timing of the transmissions are also returned by the script.
-Below is an example, showing one of the instances being transmitted less frequently.
-
-image::images/trickle_instances_graph.png[example output graph from test]
 
 The allowed range of duration between two transmissions are shown in the illustration bellow.
 
