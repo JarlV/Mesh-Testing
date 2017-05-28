@@ -73,8 +73,9 @@ for i in range(1, len(capture_data)):
 # Test each instance
 for row in instances_toggle_times:
     for instance in row:
-        test_result = logicData.transmits_in_trickle(instance, imin, imax)
-        print(test_result[0], "samples failed", test_result[1], "samples passed")
+        if len(instance) > 0:
+            test_result = logicData.transmits_in_trickle([i[1] for i in instance], imin, imax)
+            print(test_result[0], "samples failed,", test_result[1], "samples passed")
 
 # Print radio usage percentage to console
 tx_p = 100 * tx / (test_time_seconds * 1000)

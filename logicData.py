@@ -36,7 +36,7 @@ class LogicData:
         reader = csv.reader(csv_file, delimiter=',')
         next(reader)
         self.raw_data = [[float(line[0]) * self.time_multiplier,
-                          int(line[1])] for line in reader]
+                          int(line[1], 16)] for line in reader]     # Reads the bitpattern as hex
         csv_file.close()
 
     # Get durations between each toggle in the data for all the channels
