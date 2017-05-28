@@ -7,6 +7,6 @@ The tests were used in the group project `IT2901` on a BLE mesh impolementation 
 `PhoenixLL` and the `Trickle algorithm`.
 
 == Tests
-* link:documentation/mesh_radio_test.adoc[Test for transmit times in all instances and radio up time]
-* link:documentation/trickle_test.adoc[Test for transmit times and Trickle algorithm]
-* link:documentation/trickle_test_n_nodes.adoc[Test for transmit times in n nodes]
+* link:documentation/mesh_radio_test.adoc[Test for transmission times in all instances and radio up time]
+* link:documentation/trickle_test.adoc[Test for transmission times and Trickle algorithm]
+* link:documentation/trickle_test_n_nodes.adoc[Test for transmission times in n nodes]

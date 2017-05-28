@@ -162,8 +162,8 @@ def flat_nano_bumps(capture_data, bump_len):
 
 # Returns the amount of durations that does not fit in expected intervals, and the amount that do fit
 # transmit_times:  List of time durations. Each being the duration since last transmit
-# imin:            imin as defined in the Tricle algorithm
-# imax:            imax as defined in the Tricle algorithm
+# imin:            imin as defined by the Tricle algorithm
+# imax:            imax as defined by the Tricle algorithm
 def transmits_in_trickle(transmit_times, imin, imax):
     interval = imin
     last_interval = 0

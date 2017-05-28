@@ -1,4 +1,4 @@
-= Test for radio uptime and radio transmission using the Trickle algorithm
+= Test for radio uptime and radio transmission times using the Trickle algorithm
 
 The test for radio uptime is based on the `READY` and `DISABLE` events.
 The input for the test is a `Logic Saleae` capture file from the two pins signifying the
@@ -8,6 +8,8 @@ The test also reads what trickle instance a transmission is for, keeping track o
 
 The capture data is imported automatically by the script
 if the steps listed below are followed.
+
+image::../images/trickle_test.png[General overview of the test]
 
 == How to use the test
 
@@ -50,7 +52,7 @@ at the time of a `DISABLE` event.
 
 image::../images/TxRx.png[Distinguishing between Tx and Rx in active radio time]
 
-=== Radio up time
+=== Radio uptime test
 
 * If the bit for READY is `*1*`, the time from the toggle of READY to the toggle of
 DISABLE is added to the total *`Rx`* time.
@@ -60,15 +62,33 @@ DISABLE is added to the total *`Tx`* time.
 At the end of the test, the sum of the radio uptime is compared to the total capture time,
 and a percentage for radio up time in Rx and Tx mode is printed to console.
 
-=== Trickle transmission
+=== Trickle transmission test
 
+The script maintains a array for each trickle instance and appends each transmit time to the
+instance array that corresponds to the instance it was transmitted in.
+After all the transmission times are sorted by instance,
+each of the instance arrays are passed in for testing in the function
+`transmits_in_trickle(transmit_times, imin, imax)` in `logicData`.
+`transmit_times` will be an array with durations since the previous transmit,
+`imin` and `imax` are minimum and maximum intervals as defined by the Trickle algorithm.
+This function returns an array with length 2, containing the amount of durations that does not
+fit in expected intervals, and the amount that do fit.
+A graphical representation of the timing of the transmissions are also returned by the script.
+
+The allowed range of duration between two transmissions are shown in the illustration bellow.
+
+image::../images/trickle_intervals.png[the relation between two trickle intervals]
+
+
+image::../images/trickle_validation.png[the validation process of the individual transmissions]
 
 
 == Issues
 
-* A issue that was discovered with the Logic capture is that it sometimes contain `20 ns` toggles.
-This has been taken into consideration in the Python script by ignoring
-durations between toggles that is less than `1 us`.
+* A issue that was discovered with the Logic capture is that it sometimes contain some `20 ns`
+durations between toggles. This has been taken into consideration in the Python script by
+keeping track of the pairing of READY and DISABLE, not allowing a double toggle on the DISABLE pin to be paired with
+the same READY event. This might however give a slightly larger margin of error.
 
 * The Trickle part of the test does not have insight into the reset of the interval to Imin.
 The test therefore assumes that the interval has been reset if it detects a transmission gap
