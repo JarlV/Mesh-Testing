@@ -11,7 +11,7 @@ inFile_path = os.getcwd().replace('\\', '/') + inFile
 amount_of_capture_channels = 6
 
 # Start Logic capture
-#logicData.capture(test_time_seconds, amount_of_capture_channels, inFile_path)
+logicData.capture(test_time_seconds, amount_of_capture_channels, inFile_path)
 
 # Import capture
 capture_data = logicData.LogicData(inFile_path, 'ms', amount_of_capture_channels).get_raw_data()
