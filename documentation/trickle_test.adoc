@@ -1,4 +1,0 @@
-== Test for transmit times and Trickle algorithm
-=== How to use the test
-=== How the test works
-=== Issues

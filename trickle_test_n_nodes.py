@@ -18,6 +18,8 @@ data = logicData.LogicData(inFile, "ms", amount_of_nodes)
 data.set_decimal_points(5)
 capture_data = data.get_raw_data()
 
+# Returns the index of the node that toggled in the sample current_toggle
+# with respect tp last_toggle
 def get_changed_node(last_toggle, current_toggle):
     node = last_toggle ^ current_toggle
     counter = 0
@@ -26,6 +28,7 @@ def get_changed_node(last_toggle, current_toggle):
         counter += 1
     return counter
 
+# Sort captures into the nodes they came from
 node_toggle_times = [[] for i in range(amount_of_nodes)]
 node_last_toggles = [0 for i in range(amount_of_nodes)]
 last_capture = [0, 0]
@@ -35,14 +38,14 @@ for sample in capture_data:
     node_last_toggles[changed_node] = sample[0]
     last_capture = sample
 
+# Test each transmit from each board
 for i in node_toggle_times:
     failed_indexes = logicData.transmits_in_trickle(i, imin, imax)
     print(100 * (len(i) - len(failed_indexes)) / len(i), "% of samples passed the trickle test.",
           len(i), "total samples.")
 
 
-#  Graphics
-
+# Graphics
 plt.xlabel("transmit")
 plt.ylabel("time (ms) since last transmit")
 plt.suptitle("Durations between each transmit")

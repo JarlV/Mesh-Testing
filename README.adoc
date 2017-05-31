@@ -9,7 +9,7 @@ In the end, the development of one script was prioritized. This test script is d
 
 = Test for radio uptime and radio transmission times using the Trickle algorithm
 
-The test for radio uptime is based on the `READY` and `DISABLE` events.
+The test for radio uptime is based on the `READY` and `DISABLED` events.
 The input for the test is a `Logic Saleae` capture file from the two pins signifying the
 mentioned radio events, with `READY` as LSB.
 
@@ -31,7 +31,7 @@ image::images/trickle_test.png[General overview of the test]
 |READY event toggle
 
 |1
-|DISABLE event toggle
+|DISABLED event toggle
 
 |2-5
 |4 bits used as instance ID
@@ -57,18 +57,18 @@ followed by the results of the test.
 == How the test works
 
 The script identifies the time between a
-`READY` event and a `DISABLE` event as the radio being active.
+`READY` event and a `DISABLED` event as the radio being active.
 The test also distinguishes between `Tx` and `Rx` by the *value* (high or low) of the pin signifying `READY`
-at the time of a `DISABLE` event.
+at the time of a `DISABLED` event.
 
 image::images/TxRx.png[Distinguishing between Tx and Rx in active radio time]
 
 === Radio uptime test
 
 * If the bit for READY is `*1*`, the time from the toggle of READY to the toggle of
-DISABLE is added to the total *`Rx`* time.
+DISABLED is added to the total *`Rx`* time.
 * If the bit for READY is `*0*`, the time from the toggle of READY to the toggle of
-DISABLE is added to the total *`Tx`* time.
+DISABLED is added to the total *`Tx`* time.
 
 At the end of the test, the sum of the radio uptime is compared to the total capture time,
 and a percentage for radio up time in Rx and Tx mode is printed to console.
@@ -93,7 +93,7 @@ image::images/trickle_intervals.png[the relation between two trickle intervals]
 
 * A issue that was discovered with the Logic capture is that it sometimes contain some `20 ns`
 durations between toggles. This has been taken into consideration in the Python script by
-keeping track of the pairing of READY and DISABLE, not allowing a double toggle on the DISABLE pin to be paired with
+keeping track of the pairing of READY and DISABLED, not allowing a double toggle on the DISABLED pin to be paired with
 the same READY event. This might however give a slightly larger margin of error.
 
 * The Trickle part of the test does not have insight into the reset of the interval to Imin.

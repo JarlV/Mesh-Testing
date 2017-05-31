@@ -147,6 +147,8 @@ def get_delta_times(data):
         delta_times.append(float(delta_time))
     return delta_times
 
+
+# Not used
 def flat_nano_bumps(capture_data, bump_len):
     nano_bump_free_capture = []
     ban_index = float('inf')
@@ -160,7 +162,7 @@ def flat_nano_bumps(capture_data, bump_len):
             nano_bump_free_capture.append(capture_data[i])
     return nano_bump_free_capture
 
-# Returns the amount of durations that does not fit in expected intervals, and the amount that do fit
+# Returns an array of the indexes from transmit_times that failed the test
 # transmit_times:  List of time durations. Each being the duration since last transmit
 # imin:            imin as defined by the Tricle algorithm
 # imax:            imax as defined by the Tricle algorithm
